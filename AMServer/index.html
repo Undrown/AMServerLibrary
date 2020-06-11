@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" type="text/css" href="css/main.css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/auth.js"></script>
+<script type="text/javascript" src="js/um.js"></script>
+<script type="text/javascript" src="js/dm.js"></script>
+<meta charset="UTF-8">
+<head>
+	<title>AMSERVER</title>
+</head>
+<body>
+	<div id="div_with_buttons">
+		<button onclick="toggle_user_management()">User-management</button>
+		<button onclick="toggle_data_management()">data-management</button>
+		<button>3</button>
+		<button>4</button>
+		<div id="login_div">
+			<button id="user_b" onclick="logout()">exit</button>
+			<button id="login_b" onclick="login()">login</button>
+		</div>
+	</div>
+	<div class="actions" id="um">
+		<b>User-management</b>
+		<button onclick="$('#add_user_form').css('display', 'inline');">add user</button>
+		<button id="delete_user_form_b" disabled onclick="$('#delete_user_form').css('display', 'inline');">Delete</button>
+
+	</div>
+	<div class="actions" id="dm">data-management</div>
+	<div class="actions">actions1</div>
+	<div class="actions">actions1</div>
+	<div class="actions">actions1</div>
+	<div class="actions">actions1</div>
+	<div class="result_table" id="result_um">
+		<table>
+			<thead>
+				<th> id </th>
+				<th> name </th>
+				<th> phone </th>
+				<th> salary </th>
+			</thead>
+			<tbody id="all_users">
+				
+			</tbody>
+		</table>
+	</div>
+	<div class="result_table" id="result_data">
+		<table>
+			<button id="data_add_b" onclick="$('#add_data_form').css('display', 'inline');"> <b>+</b> </button>
+			<thead>
+				<th> добавлено </th>
+				<th> id </th>
+				<th> начало работы </th>
+				<th> конец работы </th>
+				<th> комментарий </th>
+			</thead>
+			<tbody id="all_data">
+				
+			</tbody>
+		</table>
+	</div>
+	<div class="result_table"></div>
+	<div class="result_table"></div>
+	<div class="result_table"></div>
+	<div id="delete_user_form">
+		<b>Are you sure?</b>
+		<button onclick="delete_user()">ok</button>
+		<button onclick="$('#delete_user_form').css('display', 'none');">no</button>
+	</div>
+	<div id="add_user_form">
+		Name: <input type="text" size="30" id="add_user_form_name" /><br />
+		Phone: <input type="text" size="30" id="add_user_form_phone" /><br />
+		Salary: <input type="text" size="30" id="add_user_form_salary" /><br />
+		<button onclick="add_user()">Ok</button>
+		<button onclick="$('#add_user_form').css('display', 'none');">Cancel</button>
+	</div>
+	<div id="add_data_form">
+		<div style="float:left;">
+			Начало работы: <br />
+			Конец работы: <br />
+			Комментарий: <br />
+		</div>
+		<div style="float:right;">
+			<input type="text" size="30" id="add_data_form_time_start" /><br />
+			<input type="text" size="30" id="add_data_form_time_end" /><br />
+			<input type="text" size="30" id="add_data_form_comment" /><br />
+		</div>
+		<div>
+			<button onclick="add_data()">Ok</button>
+			<button onclick="$('#add_data_form').css('display', 'none');">Cancel</button>
+		</div>
+	</div>
+</body>
+</html>
