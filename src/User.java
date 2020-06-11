@@ -12,7 +12,15 @@ public class User {
         salary = 0D;
     }
 
-    public void setData(String json){
-
+    @Override
+    public String toString() {
+        StringBuilder data_b = new StringBuilder();
+        data.forEach(entry -> data_b.append(entry.toString()));
+        String data_str = data_b.toString();
+        return "User " +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", salary=" + salary +
+                "\nData: " + data_str;
     }
 }

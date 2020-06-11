@@ -69,4 +69,18 @@ public class Connector {
         }
         return false;
     }
+
+    public static void performMassivePushRequest(User user){
+        user.data.forEach( entry ->{
+            if(entry.timeAdd == null){
+                //newly added
+            }else if(entry.isModified){
+                //modified
+            }
+        });
+    }
+
+    public static void performPushRequest(Entry entry){
+        //need to do this parallel
+    }
 }
