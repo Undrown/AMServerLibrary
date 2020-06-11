@@ -1,4 +1,5 @@
 public class Entry {
+    public String id;
     public Long timeAdd;
     public Long timeStart;
     public Long timeEnd;
@@ -9,6 +10,7 @@ public class Entry {
     @Override
     public String toString() {
         return "\nEntry{" +
+                //"id: " + id +
                 "time_add='" + timeAdd + '\'' +
                 ", timeStart=" + timeStart +
                 ", timeEnd=" + timeEnd +

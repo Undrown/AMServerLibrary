@@ -39,7 +39,7 @@ public class Connector {
         return new User();
     }
 
-    public static boolean performPullRequest(User user){
+    public static void performPullRequest(User user){
         String url =webApi+"?action=get_data&id="+user.id;
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -51,15 +51,15 @@ public class Connector {
             if (response.statusCode() != 200){
                 System.out.println("Pull data error. request status:" + response.statusCode());
                 System.out.println("Bad request?");
-                return false;
+                return;
             }else if (responseBody.contains("ERROR_")){
                 System.out.println("Pull data error: " + responseBody);
-                return false;
+                return;
             }
             //parse json
             Entry[] data = gson.fromJson(response.body(), Entry[].class);
             user.data.addAll(Arrays.asList(data));
-            return true;
+            user.data.forEach(entry -> entry.id = user.id);
         } catch (IOException e) {
             System.out.println("Pull data error: IO exception");
             e.printStackTrace();
@@ -67,20 +67,43 @@ public class Connector {
             System.out.println("Pull data error: request interrupted");
             e.printStackTrace();
         }
-        return false;
     }
 
     public static void performMassivePushRequest(User user){
-        user.data.forEach( entry ->{
-            if(entry.timeAdd == null){
-                //newly added
-            }else if(entry.isModified){
-                //modified
-            }
-        });
+        user.data.forEach(Connector::performPushRequest);
     }
 
-    public static void performPushRequest(Entry entry){
-        //need to do this parallel
+    private static void performPushRequest(Entry entry){
+        //need to do this in parallel
+        if(entry.timeAdd == null){
+            System.out.println("Adding...");
+            performAddRequest(entry);
+        }else if(entry.isModified){
+            performUpdateRequest(entry);
+        }
+    }
+
+    private static void performAddRequest(Entry entry){
+        String url = webApi + "?action=add_data"+
+                "&timeStart=" + entry.timeStart +
+                "&timeEnd=" + entry.timeEnd +
+                "&comment=" + entry.comment;
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .timeout(Duration.ofSeconds(10))
+                .build();
+        entry.state = Entry.RequestState.QUERIED;
+        httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+        .thenApply(HttpResponse::body)
+        .thenAccept(s -> {
+            if (s.contains("ERROR_")) entry.state = Entry.RequestState.FAILED;
+            else entry.state = Entry.RequestState.SUCCESS;
+            System.out.println(s);
+        })
+        .join();
+    }
+
+    private static void performUpdateRequest(Entry entry){
+
     }
 }

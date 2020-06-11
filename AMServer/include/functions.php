@@ -76,7 +76,7 @@ function add_data($id, $timeStart, $timeEnd, $comment)
 		VALUES 
 		('$time_add', '$timeStart', '$timeEnd', '$comment')");
 	if (!$result)die('ERROR_OTHER');
-	die($ok);
+	die("OK");
 }
 
 function update_entry($timeAdd, $timeStart, $timeEnd, $comment)
